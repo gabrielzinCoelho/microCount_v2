@@ -1,4 +1,4 @@
-from models import Imagem, EstadoImagem, EstadoSetor#, EstadoInput
+from models import Imagem, EstadoImagem, EstadoSetor, EstadoInput
 
 import cv2 as cv
 
@@ -35,6 +35,10 @@ class GerenciaImagem:
                 raioMarcacao = raioMarcacao,
                 corMarcacao = corSecundaria,
                 zoomSetor = zoomSetor
+            ),
+            'input': EstadoInput(
+                imagem = self.__imagem,
+                callbackEncerrarInput = lambda : self.__defineIdProximoEstado('imagem')
             )
         }
 

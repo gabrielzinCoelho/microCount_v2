@@ -12,6 +12,9 @@ class Imagem:
         self.__setorAtual = 0
     
 
+    def obtemSetorAtual(self):
+        return self.__setorAtual
+
     def defineSetorAtual(self, setor):
         self.__setorAtual = setor
 
