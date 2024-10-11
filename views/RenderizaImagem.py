@@ -4,7 +4,7 @@ from Utilitarios import Utilitarios
 
 class RenderizaImagem:
 
-    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, callbackViewCrua, callbackViewSetores, callbackViewContagem, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
+    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, callbackViewCrua, callbackViewSetores, callbackViewContagem, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado):
         self.__imagem = imagem
         self.__callbackQuadroSelecionado = callbackQuadroSelecionado
         self.__callbackFecharImagem = callbackFecharImagem
@@ -16,6 +16,7 @@ class RenderizaImagem:
         self.__corLinha = corLinha 
         self.__espessuraLinha = espessuraLinha 
         self.__opacidadeLinha = opacidadeLinha
+        self.__opacidadeSetorContabilizado = opacidadeSetorContabilizado
         self.__callbackViewCrua = callbackViewCrua
         self.__callbackViewSetores = callbackViewSetores
         self.__callbackViewContagem = callbackViewContagem
@@ -93,7 +94,7 @@ class RenderizaImagem:
             if setor.obtemContabilizado():    
                 coordenadaInicial, coordenadaFinal = setor.obtemCoordenadas()
                 cv.rectangle(copiaImg, coordenadaInicial, coordenadaFinal, self.__corLinha, -1)
-        img = Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=self.__opacidadeLinha)
+        img = Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=self.__opacidadeSetorContabilizado)
         return img
     
     def __renderizaContagem(self, img):

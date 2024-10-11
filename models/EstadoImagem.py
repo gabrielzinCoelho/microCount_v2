@@ -6,8 +6,7 @@ from views import RenderizaImagem
 
 class EstadoImagem(Estado):
 
-    def __init__(self, *, imagem, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
-        super().__init__()
+    def __init__(self, *, imagem, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado):
         self.__imagem = imagem
         self.__renderizaImagem = RenderizaImagem(
             imagem = imagem, 
@@ -20,12 +19,13 @@ class EstadoImagem(Estado):
             corLinha = corLinha,
             espessuraLinha = espessuraLinha,
             opacidadeLinha = opacidadeLinha,
+            opacidadeSetorContabilizado = opacidadeSetorContabilizado,
             callbackViewCrua = lambda : self.__defineModoVisualizacao('crua'),
             callbackViewSetores = lambda : self.__defineModoVisualizacao('setores'),
             callbackViewContagem = lambda : self.__defineModoVisualizacao('contagem')
         )
         self.__callbackNavegarSetor = callbackNavegarSetor
-        self.__modoVisualizacao = 'crua'
+        self.__modoVisualizacao = 'contagem'
         self.__dictVisualizacao = {
             'crua': self.__renderizaImagem.renderizaImagem,
             'setores': self.__renderizaImagem.renderizaImagemComSetores,

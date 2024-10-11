@@ -25,7 +25,9 @@ class Sistema:
             fonteTexto = FONTE_ROTULO_SETOR,
             escalaTexto = ESCALA_ROTULO_SETOR,
             corTexto = COR_ROTULO_SETOR,
-            espessuraTexto = ESPESSURA_ROTULO_SETOR
+            espessuraTexto = ESPESSURA_ROTULO_SETOR,
+            opacidadeMarcacao = OPACIDADE_MARCACAO,
+            raioMarcacao = RAIO_MARCACAO
         )
         gerenciaImagem.contagem()
         # except Exception as err:

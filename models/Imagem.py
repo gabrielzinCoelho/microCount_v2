@@ -28,7 +28,7 @@ class Imagem:
 
     def obtemImgSetorAtual(self):
         coordendasSetor = self.__setores[self.__setorAtual].obtemCoordenadas()
-        imgQuadro = self.img[coordendasSetor[0][1] : coordendasSetor[1][1] + 1, coordendasSetor[0][0] : coordendasSetor[1][0] + 1]
+        imgQuadro = self.__img[coordendasSetor[0][1] : coordendasSetor[1][1] + 1, coordendasSetor[0][0] : coordendasSetor[1][0] + 1]
         return imgQuadro.copy()
 
     def obtemSetores(self):
