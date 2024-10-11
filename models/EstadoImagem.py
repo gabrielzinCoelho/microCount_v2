@@ -6,12 +6,12 @@ from views import RenderizaImagem
 
 class EstadoImagem(Estado):
 
-    def __init__(self, *, imagem, encerrarExecucao, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
+    def __init__(self, *, imagem, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
         super().__init__()
         self.__imagem = imagem
         self.__renderizaImagem = RenderizaImagem(
             imagem = imagem, 
-            callbackQuadroSelecionado = self.selecionarQuadro,
+            callbackQuadroSelecionado = self.__selecionarQuadro,
             callbackFecharImagem = encerrarExecucao,
             fonteTexto = fonteTexto,
             escalaTexto = escalaTexto,
@@ -19,24 +19,38 @@ class EstadoImagem(Estado):
             espessuraTexto = espessuraTexto,
             corLinha = corLinha,
             espessuraLinha = espessuraLinha,
-            opacidadeLinha = opacidadeLinha
+            opacidadeLinha = opacidadeLinha,
+            callbackViewCrua = lambda : self.__defineModoVisualizacao('crua'),
+            callbackViewSetores = lambda : self.__defineModoVisualizacao('setores'),
+            callbackViewContagem = lambda : self.__defineModoVisualizacao('contagem')
         )
-        self.__modoVisualizacao = 0
+        self.__callbackNavegarSetor = callbackNavegarSetor
+        self.__modoVisualizacao = 'crua'
+        self.__dictVisualizacao = {
+            'crua': self.__renderizaImagem.renderizaImagem,
+            'setores': self.__renderizaImagem.renderizaImagemComSetores,
+            'contagem': self.__renderizaImagem.renderizaImagemComContagem
+        }
 
-    def selecionarQuadro(self, x_event, y_event):
-        setorSelecionado = ((y_event // self.__imagem.saltoLinha) * self.__imagem.numeroColunas) + (x_event // self.__imagem.saltoColuna)
-        self.__imagem.setorAtual = setorSelecionado
+    def __selecionarQuadro(self, x_event, y_event):
+        setorSelecionado = ((y_event // self.__imagem.obtemSaltoLinha()) * self.__imagem.obtemNumColunas()) + (x_event // self.__imagem.obtemSaltoColuna())
+        self.__imagem.defineSetorAtual(setorSelecionado)
 
-        if self.__imagem.setores[setorSelecionado].contabilizado:
+        if self.__imagem.obtemSetorSelecionado().obtemContabilizado():
             self.__imagem.resetaContagemSetorAtual()
-            self.__atualizarImagem()
+        else:
+            self.__callbackNavegarSetor()
+        
+
+    def __defineModoVisualizacao(self, modoVisualizacao):
+        if modoVisualizacao in self.__dictVisualizacao:
+            self.__modoVisualizacao = modoVisualizacao
 
     def iniciarEstado(self):
         pass
 
     def emExecucao(self):
-        self.__renderizaImagem.atualizaImagem()
-        cv.destroyWindow("Imagem")
+        self.__dictVisualizacao[self.__modoVisualizacao]()
     
     def sairEstado(self):
-        pass
+        cv.destroyWindow("Imagem")

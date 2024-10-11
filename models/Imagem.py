@@ -32,7 +32,10 @@ class Imagem:
         return imgQuadro.copy()
 
     def obtemSetores(self):
-        return copy.deepcopy(self.__setores) 
+        return copy.deepcopy(self.__setores)
+
+    def obtemSetorSelecionado(self):
+        return copy.deepcopy(self.__setores[self.__setorAtual]) 
 
     def obtemSaltoLinha(self):
         return self.__saltoLinha
@@ -45,7 +48,7 @@ class Imagem:
 
     def __particionaImagem(self, *, porcentagemSetor):
 
-        alturaImg, larguraImg = self.img.shape[:2]
+        alturaImg, larguraImg = self.__img.shape[:2]
         self.__saltoLinha = math.ceil(porcentagemSetor/100 * alturaImg)
         self.__saltoColuna = math.ceil(porcentagemSetor/100 * larguraImg)
         self.__numeroLinhas = math.ceil(alturaImg/self.__saltoLinha)

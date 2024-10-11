@@ -1,10 +1,10 @@
 import cv2 as cv
 
 from Utilitarios import Utilitarios
+
 class RenderizaImagem:
 
-
-    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
+    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, callbackViewCrua, callbackViewSetores, callbackViewContagem, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha):
         self.__imagem = imagem
         self.__callbackQuadroSelecionado = callbackQuadroSelecionado
         self.__callbackFecharImagem = callbackFecharImagem
@@ -16,12 +16,16 @@ class RenderizaImagem:
         self.__corLinha = corLinha 
         self.__espessuraLinha = espessuraLinha 
         self.__opacidadeLinha = opacidadeLinha
+        self.__callbackViewCrua = callbackViewCrua
+        self.__callbackViewSetores = callbackViewSetores
+        self.__callbackViewContagem = callbackViewContagem
 
     def renderizaImagem(self):
         self.__mostraImagem(
             img = self.__imagem.obtemImg(),
             dictWaitKey = {
-                'q': self.__callbackFecharImagem
+                'q': self.__fecharImagem,
+                'f': self.__defineViewSetores
             }
         )
 
@@ -32,7 +36,9 @@ class RenderizaImagem:
             img = copiaImg,
             mouseEvent = self.__mouseEventCallback,
             dictWaitKey = {
-                'q': self.__callbackFecharImagem
+                'q': self.__fecharImagem,
+                'f': self.__defineViewCrua,
+                'r': self.__defineViewContagem
             }
         )
 
@@ -44,7 +50,8 @@ class RenderizaImagem:
             img = copiaImg,
             mouseEvent = self.__mouseEventCallback,
             dictWaitKey = {
-                'q': self.__callbackFecharImagem
+                'q': self.__fecharImagem,
+                'r': self.__defineViewSetores
             }
         )
 
@@ -58,8 +65,8 @@ class RenderizaImagem:
             cv.setMouseCallback("Imagem", mouseEvent)
 
         while self.__imagemEstaAberta:
-            key = cv.waitKey(1000) & 0xFF
-            if (key in dictWaitKey):
+            key = chr(cv.waitKey(1000) & 0xFF)
+            if key in dictWaitKey:
                 dictWaitKey[key]()
                 
  
@@ -72,10 +79,10 @@ class RenderizaImagem:
             cv.line(copiaImg, (0, posY), (larguraImg, posY), self.__corLinha, self.__espessuraLinha)
             posY += self.__imagem.obtemSaltoLinha()
         
-        posX = self.__imagem.saltoColuna
+        posX = self.__imagem.obtemSaltoColuna()
         while posX < larguraImg:
             cv.line(copiaImg, (posX, 0), (posX, alturaImg), self.__corLinha, self.__espessuraLinha)
-            posX += self.__imagem.saltoColuna
+            posX += self.__imagem.obtemSaltoColuna()
 
         return Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=self.__opacidadeLinha)
 
@@ -86,7 +93,7 @@ class RenderizaImagem:
             if setor.obtemContabilizado():    
                 coordenadaInicial, coordenadaFinal = setor.obtemCoordenadas()
                 cv.rectangle(copiaImg, coordenadaInicial, coordenadaFinal, self.__corLinha, -1)
-        img = RenderizaImagem.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=self.__opacidadeLinha)
+        img = Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=self.__opacidadeLinha)
         return img
     
     def __renderizaContagem(self, img):
@@ -106,7 +113,7 @@ class RenderizaImagem:
                         self.__espessuraTexto, 
                         cv.LINE_AA
                     )
-        img = RenderizaImagem.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=1)
+        img = Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=1)
         return img
 
 
@@ -114,3 +121,19 @@ class RenderizaImagem:
         if event == cv.EVENT_LBUTTONDOWN:
             self.__imagemEstaAberta = False
             self.__callbackQuadroSelecionado(x, y)
+
+    def __fecharImagem(self):
+        self.__imagemEstaAberta = False
+        self.__callbackFecharImagem()
+
+    def __defineViewCrua(self):
+        self.__imagemEstaAberta = False
+        self.__callbackViewCrua()
+    
+    def __defineViewSetores(self):
+        self.__imagemEstaAberta = False
+        self.__callbackViewSetores()
+    
+    def __defineViewContagem(self):
+        self.__imagemEstaAberta = False
+        self.__callbackViewContagem()
