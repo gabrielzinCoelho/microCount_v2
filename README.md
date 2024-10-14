@@ -1,6 +1,6 @@
 # MicroCount
 
-Sistema auxilar para a contagem de elementos capturados em placas via images microscópicas.
+Sistema auxiliar para a contagem de elementos capturados em placas via imagens microscópicas.
 
 <p align="center">
     <img src="./assets/demoMicroCount.png" width="700px" height="375px">
@@ -8,7 +8,7 @@ Sistema auxilar para a contagem de elementos capturados em placas via images mic
 
 ## Sobre o Projeto
 
-O projeto consiste de uma aplicação desenvolvida em Python e utilizando a biblioteca de processamento de imagens OpenCV visando auxilar a contagem manual de elementos capturados em placas via images microscópicas. 
+O projeto consiste de uma aplicação desenvolvida em Python e utilizando a biblioteca de processamento de imagens OpenCV visando auxiliar a contagem manual de elementos capturados em placas via imagens microscópicas. 
 
 Uma técnica comumente utilizada na área de bioinformática é a divisão da imagem original em áreas menores, denominadas setores. Assim, a contagem individual de cada setor é realizada e, ao final, a contagem geral é obtida pela soma das parcelas de cada setor.
 
@@ -35,7 +35,7 @@ Escolha uma opcao:     2
 
 Nessa página, há 3 visualizações diferentes possíveis para apresentar a imagem: visualização crua, visualização com setores e visualização com as contagens exibidas. As teclas ```f``` e ```r``` permitem a navegação entre elas.
 
-Além disso, o evento de ```clique de mouse``` sobre um setor é capturado e é responsável por renderizar a página de ```Setor Selecionado```.
+Além disso, o evento de ```clique de mouse``` sobre um setor é capturado e é responsável por renderizar a página de ```Setor Selecionado```. Caso o clique seja sobre um setor já contabilizado, a ação realizada é de resetar a contagem definida no mesmo.
 
 Para exportar os resultados registrados a tecla ```s``` é utilizada e para fechar a imagem e encerrar a aplicação basta apertar a tecla ```q```.
 
@@ -66,9 +66,9 @@ Setor 41 - Contagem: 17
 
 ### Exporte os resultados
 
-Na página de ```Imagem sob análise``` a tecla ```s``` é utilizada para exportar os dados obtidos. Os setores não contabilizados são registrados com um valor predefinido no sistema, como o valor zero, por exemplo. Essa, e outras configurações da aplicação, são definidas no arquivo ```Settings.py```. Nesse caso, pela constante ```VALOR_CONTAGEM_PADRAO```.
+Na página de ```Imagem sob análise```, a tecla ```s``` é utilizada para exportar os dados obtidos. Os setores não contabilizados são registrados com um valor predefinido no sistema, como o valor zero, por exemplo. Essa, e outras configurações da aplicação, são definidas no arquivo ```Settings.py```. Nesse caso, pela constante ```VALOR_CONTAGEM_PADRAO```.
 
-Ao exportar a contagem, a imagem original e uma imagem de cada um dos setores é salva. Além disso, um arquivo csv com informações detalhadas de cada setor é criado. Todos esse arquivos são mantidos em uma pasta nomeada com a identificação da imagem original. A pasta utilizada para realizar a exportação também é definida no arquivo ```Settings.py```, por meio da constante ```CAMINHO_EXPORTAR_CONTAGEM```.
+Ao exportar a contagem, a imagem original e uma imagem de cada um dos setores é salva. Além disso, um arquivo csv com informações detalhadas de cada setor é criado. Todos esses arquivos são mantidos em uma pasta nomeada com a identificação da imagem original. A pasta utilizada para realizar a exportação também é definida no arquivo ```Settings.py```, por meio da constante ```CAMINHO_EXPORTAR_CONTAGEM```.
 
 <p align="center">
     <img src="./assets/exportContagem.png" width="500px" height="268px">
