@@ -33,6 +33,12 @@ Escolha uma opcao:     2
 
 ### Imagem sob análise
 
+Nessa página, há 3 visualizações diferentes possíveis para apresentar a imagem: visualização crua, visualização com setores e visualização com as contagens exibidas. As teclas ```f``` e ```r``` permitem a navegação entre elas.
+
+Além disso, o evento de ```clique de mouse``` sobre um setor é capturado e é responsável por renderizar a página de ```Setor Selecionado```.
+
+Para exportar os resultados registrados a tecla ```s``` é utilizada e para fechar a imagem e encerrar a aplicação basta apertar a tecla ```q```.
+
 <p align="center">
     <img src="./assets/demoMicroCount.png" width="350px" height="190px">
     <img src="./assets/demoMicroCount_2.png" width="350px" height="190px">
@@ -41,12 +47,18 @@ Escolha uma opcao:     2
 
 ### Setor Selecionado
 
+Nessa página, o setor selecionado anteriormente é exibido e o evento de ```clique de mouse``` é utilizado para fazer pequenas marcações que auxiliam a contagem dos elementos. Para limpar as marcações a tecla ```r``` deve ser pressionada.
+
+Ao final, com a contagem devidamente feita, basta apertar a tecla ```q``` para fechar o setor e avançar para a próxima etapa.
+
 <p align="center">
-    <img src="./assets/demoSetor.png" width="500px" height="268px">
-    <img src="./assets/demoSetor_2.png" width="500px" height="268px">
+    <img src="./assets/demoSetor.png" width="350px" height="190px">
+    <img src="./assets/demoSetor_2.png" width="350px" height="190px">
 </p>
 
 ### Informe a contagem
+
+A contagem do setor selecionado é registrada e salva.
 
 ```
 Setor 41 - Contagem: 17
@@ -54,6 +66,16 @@ Setor 41 - Contagem: 17
 
 ### Exporte os resultados
 
+Na página de ```Imagem sob análise``` a tecla ```s``` é utilizada para exportar os dados obtidos. Os setores não contabilizados são registrados com um valor predefinido no sistema, como o valor zero, por exemplo. Essa, e outras configurações da aplicação, são definidas no arquivo ```Settings.py```. Nesse caso, pela constante ```VALOR_CONTAGEM_PADRAO```.
+
+Ao exportar a contagem, a imagem original e uma imagem de cada um dos setores é salva. Além disso, um arquivo csv com informações detalhadas de cada setor é criado. Todos esse arquivos são mantidos em uma pasta nomeada com a identificação da imagem original. A pasta utilizada para realizar a exportação também é definida no arquivo ```Settings.py```, por meio da constante ```CAMINHO_EXPORTAR_CONTAGEM```.
+
 <p align="center">
     <img src="./assets/exportContagem.png" width="500px" height="268px">
 </p>
+
+### Settings
+
+O arquivo ```Settings.py``` possui a definição de diversas constantes que modificam o funcionamento do sistema. Principalmente em relação à interface, é possível realizar um ajuste fino dos valores definidos para que a aplicação se adapte melhor aos diferentes cenários.
+
+Sinta-se à vontade para personalizar o sistema ajustando os parâmetros necessários e otimizando a sua experiência conforme suas necessidades. 
