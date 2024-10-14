@@ -63,11 +63,11 @@ class GerenciaImagem:
         self.__idProximoEstado = None
 
     def contagem(self):
-        # try:
-        while self.__emExecucao:
-            if self.__idProximoEstado is not None and self.__idProximoEstado != self.__idEstadoAtual:
-                self.__trocaEstados()
-            if self.__idEstadoAtual in self.__estados:
-                self.__estados[self.__idEstadoAtual].emExecucao()
-        # except Exception as err:
-        #     print(err)
+        try:
+            while self.__emExecucao:
+                if self.__idProximoEstado is not None and self.__idProximoEstado != self.__idEstadoAtual:
+                    self.__trocaEstados()
+                if self.__idEstadoAtual in self.__estados:
+                    self.__estados[self.__idEstadoAtual].emExecucao()
+        except Exception as err:
+            print(err)
