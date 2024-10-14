@@ -1,16 +1,24 @@
 import math
 import copy
+import os
 import cv2 as cv
 
 from .Setor import Setor
 
 class Imagem:
     def __init__(self, *, caminhoImg, porcentagemSetor):
+        self.__nomeImg, self.__extensaoImg = os.path.basename(caminhoImg).split(sep = ".", maxsplit = 1)
         self.__img = cv.imread(caminhoImg, 1)
         self.__particionaImagem(porcentagemSetor = porcentagemSetor)
         
         self.__setorAtual = 0
     
+
+    def obtemNomeImg(self):
+        return self.__nomeImg
+    
+    def obtemExtensaoImg(self):
+        return self.__extensaoImg
 
     def obtemSetorAtual(self):
         return self.__setorAtual
@@ -60,10 +68,11 @@ class Imagem:
         self.__setores = []
         coordenadaBase = (0, 0)
 
-        for _ in range(self.__numeroLinhas):
-            for _ in range(self.__numeroColunas):
+        for i in range(self.__numeroLinhas):
+            for j in range(self.__numeroColunas):
                 
                 self.__setores.append(Setor(
+                    id = i * self.__numeroLinhas + j,
                     coordenadaInicial = coordenadaBase,
                     coordenadaFinal = (coordenadaBase[0] + self.__saltoColuna, coordenadaBase[1] + self.__saltoLinha)
                 ))
