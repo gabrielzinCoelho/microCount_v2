@@ -16,6 +16,7 @@ class Sistema:
             gerenciaImagem = GerenciaImagem(
                 caminhoImg = caminhoImg,
                 caminhoExportacao = os.path.join(os.getcwd(), CAMINHO_EXPORTAR_CONTAGEM),
+                contagemPadrao = VALOR_CONTAGEM_PADRAO,
                 porcentagemSetor = PORCENTAGEM_SETOR, 
                 zoomSetor = ZOOM_SETOR,
                 corPrimaria = COR_PRIMARIA,

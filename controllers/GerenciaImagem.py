@@ -3,7 +3,7 @@ from models import Imagem, EstadoImagem, EstadoSetor, EstadoInput
 import cv2 as cv
 
 class GerenciaImagem:
-    def __init__(self, *, caminhoImg, caminhoExportacao, porcentagemSetor, zoomSetor, corPrimaria, corSecundaria, espessuraDivisoria, opacidadeDivisoria, opacidadeSetorContabilizado, fonteTexto, escalaTexto, corTexto, espessuraTexto, raioMarcacao, opacidadeMarcacao):
+    def __init__(self, *, caminhoImg, caminhoExportacao, contagemPadrao, porcentagemSetor, zoomSetor, corPrimaria, corSecundaria, espessuraDivisoria, opacidadeDivisoria, opacidadeSetorContabilizado, fonteTexto, escalaTexto, corTexto, espessuraTexto, raioMarcacao, opacidadeMarcacao):
         self.__imagem = Imagem(
             caminhoImg = caminhoImg, 
             porcentagemSetor = porcentagemSetor
@@ -27,7 +27,8 @@ class GerenciaImagem:
                 opacidadeLinha = opacidadeDivisoria,
                 opacidadeSetorContabilizado = opacidadeSetorContabilizado,
                 callbackNavegarSetor = lambda : self.__defineIdProximoEstado('setor'),
-                caminhoExportacao = caminhoExportacao
+                caminhoExportacao = caminhoExportacao,
+                contagemPadrao = contagemPadrao
             ),
             'setor': EstadoSetor(
                 imagem = self.__imagem,

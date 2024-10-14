@@ -13,3 +13,4 @@ ESCALA_ROTULO_SETOR = 0.7
 COR_ROTULO_SETOR = (255, 255, 255)
 ESPESSURA_ROTULO_SETOR = 2
 CAMINHO_EXPORTAR_CONTAGEM = "export" # caminhos absolutos comecam com '/'; caminhos relativos referentes ao diretorio que contem a main
+VALOR_CONTAGEM_PADRAO = 0

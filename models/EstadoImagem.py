@@ -7,7 +7,7 @@ from controllers.ExportarContagem import ExportarContagem
 
 class EstadoImagem(Estado):
 
-    def __init__(self, *, imagem, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado, caminhoExportacao):
+    def __init__(self, *, imagem, contagemPadrao, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado, caminhoExportacao):
         self.__imagem = imagem
         self.__renderizaImagem = RenderizaImagem(
             imagem = imagem, 
@@ -28,7 +28,8 @@ class EstadoImagem(Estado):
         )
         self.__exportaContagem = ExportarContagem(
             imagem=imagem,
-            caminhoExportacao = caminhoExportacao
+            caminhoExportacao = caminhoExportacao,
+            contagemPadrao = contagemPadrao
         ) 
         self.__callbackNavegarSetor = callbackNavegarSetor
         self.__modoVisualizacao = 'contagem'
