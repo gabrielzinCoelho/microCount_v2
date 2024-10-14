@@ -14,8 +14,7 @@ class Sistema:
         try:
             caminhoImg = SelecionaImagem.selecionaImagem(extensoesValidas = EXTENSOES_VALIDAS)
             gerenciaImagem = GerenciaImagem(
-                caminhoImg = caminhoImg,
-                caminhoExportacao = os.path.join(os.getcwd(), CAMINHO_EXPORTAR_CONTAGEM), 
+                caminhoImg = caminhoImg, 
                 porcentagemSetor = PORCENTAGEM_SETOR, 
                 zoomSetor = ZOOM_SETOR,
                 corPrimaria = COR_PRIMARIA,
