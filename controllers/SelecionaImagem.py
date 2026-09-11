@@ -8,10 +8,12 @@ class SelecionaImagem:
 
     @staticmethod
     def selecionaImagem(*, extensoesValidas):
-        caminhoBase = os.getcwd()
-        caminhoRelativo = input(f"{caminhoBase}/").strip()
-        caminhoPasta = os.path.normpath(f"{caminhoBase}/{caminhoRelativo}")
-
+        # caminhoBase = os.getcwd()
+        # caminhoRelativo = input(f"{caminhoBase}/").strip()
+        # caminhoPasta = os.path.normpath(f"{caminhoBase}/{caminhoRelativo}")
+        # /home/coelho/Documents/BT/microCount_v2/db/raw
+        # /home/coelho/Documents/BT/microCount_v2/db/output
+        caminhoPasta = os.path.normpath(f"/home/coelho/Documents/BT/microCount_v2/db/output/FOIPdeltaC")
         regex = re.compile(r'.*\.(' + "|".join(extensoesValidas) + ')$')
 
         nomesImagens = [

@@ -7,8 +7,10 @@ from controllers.ExportarContagem import ExportarContagem
 
 class EstadoImagem(Estado):
 
-    def __init__(self, *, imagem, contagemPadrao, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado, caminhoExportacao):
+    def __init__(self, *, imagem, contagemPadrao, encerrarExecucao, callbackNavegarSetor, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado, corMarcacao, raioMarcacao, opacidadeMarcacao, corMarcacaoExportacao, raioMarcacaoExportacao, opacidadeMarcacaoExportacao, caminhoExportacao):
         self.__imagem = imagem
+        self.__pontosMarcadosPorSetor = {}
+        self.__pontosMarcados = []
         self.__renderizaImagem = RenderizaImagem(
             imagem = imagem, 
             callbackQuadroSelecionado = self.__selecionarQuadro,
@@ -24,12 +26,20 @@ class EstadoImagem(Estado):
             callbackViewCrua = lambda : self.__defineModoVisualizacao('crua'),
             callbackViewSetores = lambda : self.__defineModoVisualizacao('setores'),
             callbackViewContagem = lambda : self.__defineModoVisualizacao('contagem'),
-            callbackExportarContagem = self.__exportarContagem
+            callbackExportarContagem = self.__exportarContagem,
+            obtemPontosMarcados = self.obtemPontosMarcados,
+            corMarcacao = corMarcacao,
+            raioMarcacao = raioMarcacao,
+            opacidadeMarcacao = opacidadeMarcacao
         )
         self.__exportaContagem = ExportarContagem(
             imagem=imagem,
             caminhoExportacao = caminhoExportacao,
-            contagemPadrao = contagemPadrao
+            contagemPadrao = contagemPadrao,
+            obtemPontosMarcados = self.obtemPontosMarcados,
+            corMarcacao = corMarcacaoExportacao,
+            raioMarcacao = raioMarcacaoExportacao,
+            opacidadeMarcacao = opacidadeMarcacaoExportacao
         ) 
         self.__callbackNavegarSetor = callbackNavegarSetor
         self.__modoVisualizacao = 'contagem'
@@ -41,6 +51,20 @@ class EstadoImagem(Estado):
     
     def __exportarContagem(self):
         self.__exportaContagem.exportaContagem()
+
+    def atualizaPontosSetor(self, setor, pontosMarcados):
+        self.__pontosMarcadosPorSetor[setor] = list(pontosMarcados)
+        self.__pontosMarcados = [
+            ponto
+            for pontosSetor in self.__pontosMarcadosPorSetor.values()
+            for ponto in pontosSetor
+        ]
+
+    def obtemPontosSetor(self, setor):
+        return list(self.__pontosMarcadosPorSetor.get(setor, []))
+
+    def obtemPontosMarcados(self):
+        return list(self.__pontosMarcados)
 
     def __selecionarQuadro(self, x_event, y_event):
         setorSelecionado = ((y_event // self.__imagem.obtemSaltoLinha()) * self.__imagem.obtemNumColunas()) + (x_event // self.__imagem.obtemSaltoColuna())

@@ -4,7 +4,7 @@ from Utilitarios import Utilitarios
 
 class RenderizaImagem:
 
-    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, callbackViewCrua, callbackViewSetores, callbackViewContagem, callbackExportarContagem, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado):
+    def __init__(self, *, imagem, callbackQuadroSelecionado, callbackFecharImagem, callbackViewCrua, callbackViewSetores, callbackViewContagem, callbackExportarContagem, obtemPontosMarcados, fonteTexto, escalaTexto, corTexto, espessuraTexto, corLinha, espessuraLinha, opacidadeLinha, opacidadeSetorContabilizado, corMarcacao, raioMarcacao, opacidadeMarcacao):
         self.__imagem = imagem
         self.__callbackQuadroSelecionado = callbackQuadroSelecionado
         self.__callbackFecharImagem = callbackFecharImagem
@@ -21,10 +21,14 @@ class RenderizaImagem:
         self.__callbackViewSetores = callbackViewSetores
         self.__callbackViewContagem = callbackViewContagem
         self.__callbackExportarContagem = callbackExportarContagem
+        self.__obtemPontosMarcados = obtemPontosMarcados
+        self.__corMarcacao = corMarcacao
+        self.__raioMarcacao = raioMarcacao
+        self.__opacidadeMarcacao = opacidadeMarcacao
 
     def renderizaImagem(self):
         self.__mostraImagem(
-            img = self.__imagem.obtemImg(),
+            img = self.__renderizaMarcacoes(self.__imagem.obtemImg()),
             dictWaitKey = {
                 'q': self.__fecharImagem,
                 'f': self.__defineViewSetores,
@@ -35,6 +39,7 @@ class RenderizaImagem:
     def renderizaImagemComSetores(self):
         copiaImg = self.__renderizaBordas(self.__imagem.obtemImg())
         copiaImg = self.__renderizaSetores(copiaImg)
+        copiaImg = self.__renderizaMarcacoes(copiaImg)
         self.__mostraImagem(
             img = copiaImg,
             mouseEvent = self.__mouseEventCallback,
@@ -50,6 +55,7 @@ class RenderizaImagem:
         copiaImg = self.__renderizaBordas(self.__imagem.obtemImg())
         copiaImg = self.__renderizaSetores(copiaImg)
         copiaImg = self.__renderizaContagem(copiaImg)
+        copiaImg = self.__renderizaMarcacoes(copiaImg)
         self.__mostraImagem(
             img = copiaImg,
             mouseEvent = self.__mouseEventCallback,
@@ -120,6 +126,16 @@ class RenderizaImagem:
                     )
         img = Utilitarios.renderizaComOpacidade(imgOriginal=img, imgModificada=copiaImg, opacidade=1)
         return img
+
+    def __renderizaMarcacoes(self, img):
+        copiaImg = img.copy()
+        for ponto in self.__obtemPontosMarcados():
+            cv.circle(copiaImg, ponto, self.__raioMarcacao, self.__corMarcacao, -1)
+        return Utilitarios.renderizaComOpacidade(
+            imgOriginal=img,
+            imgModificada=copiaImg,
+            opacidade=self.__opacidadeMarcacao
+        )
 
 
     def __mouseEventCallback(self, event, x, y, *_):

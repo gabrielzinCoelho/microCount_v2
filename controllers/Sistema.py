@@ -29,10 +29,11 @@ class Sistema:
                 corTexto = COR_ROTULO_SETOR,
                 espessuraTexto = ESPESSURA_ROTULO_SETOR,
                 opacidadeMarcacao = OPACIDADE_MARCACAO,
-                raioMarcacao = RAIO_MARCACAO
+                raioMarcacao = RAIO_MARCACAO,
+                corMarcacaoExportacao = COR_MARCACAO_EXPORTACAO,
+                raioMarcacaoExportacao = RAIO_MARCACAO_EXPORTACAO,
+                opacidadeMarcacaoExportacao = OPACIDADE_MARCACAO_EXPORTACAO
             )
             gerenciaImagem.contagem()
         except Exception as err:
-            print(err)         
-
-        
+            print(err)

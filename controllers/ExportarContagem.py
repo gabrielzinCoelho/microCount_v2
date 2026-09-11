@@ -2,6 +2,8 @@ import os
 import cv2 as cv
 import csv
 
+from Utilitarios import Utilitarios
+
 class ExportarContagem:
 
     camposCsv = ["nome_arquivo", "contagem", "coordenada_inicio", "coordenada_fim"]
@@ -22,10 +24,14 @@ class ExportarContagem:
         except Exception as err:
             print(err)
 
-    def __init__(self, *, imagem, caminhoExportacao, contagemPadrao) -> None:
+    def __init__(self, *, imagem, caminhoExportacao, contagemPadrao, obtemPontosMarcados, corMarcacao, raioMarcacao, opacidadeMarcacao) -> None:
         self.__imagem = imagem
         self.__caminhoExportacao = caminhoExportacao
         self.__contagemPadrao = contagemPadrao
+        self.__obtemPontosMarcados = obtemPontosMarcados
+        self.__corMarcacao = corMarcacao
+        self.__raioMarcacao = raioMarcacao
+        self.__opacidadeMarcacao = opacidadeMarcacao
 
     def __exportarImagem(self, caminhoImg, img):
         cv.imwrite(caminhoImg, img)
@@ -35,6 +41,16 @@ class ExportarContagem:
             escritorArq = csv.DictWriter(arquivoCsv, fieldnames=ExportarContagem.camposCsv)
             escritorArq.writeheader()
             escritorArq.writerows(dadosCsv)
+
+    def __renderizaMarcacoes(self, img):
+        copiaImg = img.copy()
+        for ponto in self.__obtemPontosMarcados():
+            cv.circle(copiaImg, ponto, self.__raioMarcacao, self.__corMarcacao, -1)
+        return Utilitarios.renderizaComOpacidade(
+            imgOriginal=img,
+            imgModificada=copiaImg,
+            opacidade=self.__opacidadeMarcacao
+        )
 
     def exportaContagem(self):
 
@@ -66,5 +82,6 @@ class ExportarContagem:
             imgQuadro = img[coordendasSetor[0][1] : coordendasSetor[1][1] + 1, coordendasSetor[0][0] : coordendasSetor[1][0] + 1]
             self.__exportarImagem(os.path.join(caminhoPastaExportacao, nomeSetor), imgQuadro)
 
-        self.__exportarImagem(os.path.join(caminhoPastaExportacao, f"{nomeImg}.{extensaoImg}"), img)
+        imgComMarcacoes = self.__renderizaMarcacoes(img)
+        self.__exportarImagem(os.path.join(caminhoPastaExportacao, f"{nomeImg}.{extensaoImg}"), imgComMarcacoes)
         self.__exportarCsv(os.path.join(caminhoPastaExportacao, f"contagem.csv"), dadosCsv)
